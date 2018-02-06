@@ -47,7 +47,7 @@ class Game {
     }
 
     public static function generateEmptyMap($size) {
-        return array_fill(0, $size, array_fill(0, $size, 0));
+        return array_fill(0, $size, array_fill(0, $size, "."));
     }
 
     public static function generateMap($size) {
@@ -59,10 +59,10 @@ class Game {
     public static function drawSubmarine($map) {
         $x = rand(0, count($map) - 2);
         $y = rand(count($map) + 1, 9);
-        $map[$x][$y - 1] = 1;
-        $map[$x][$y] = 1;
-        $map[$x + 1][$y] = 1;
-        $map[$x + 2][$y] = 1;
+        $map[$x][$y - 1] = "X";
+        $map[$x][$y] = "X";
+        $map[$x + 1][$y] = "X";
+        $map[$x + 2][$y] = "X";
         return $map;
     }
 }
