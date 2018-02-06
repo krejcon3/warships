@@ -1,17 +1,18 @@
 <?php
 
 class Game {
-    private static $size = 10;
+    public static $size = 10;
     private $id;
     private $hash;
     private $target;
     private $blind;
 
-    private function __construct($id, $hash, $target, $blind) {
+    private function __construct($id, $hash, $target, $blind, $flag) {
         $this->id = $id;
         $this->hash = $hash;
         $this->target = $target;
         $this->blind = $blind;
+        $this->flag = $flag;
     }
 
     public static function findForHash($hash) {
@@ -19,7 +20,7 @@ class Game {
         if ($result->num_rows > 0) {
             if ($row = $result->fetch_assoc()) {
                 if ($row['flag'] == 0) {
-                    return new Game($row['id'], $row['hash'], $row['tagret'], $row['blind']);
+                    return new Game($row['id'], $row['hash'], json_decode($row['target']), json_decode($row['blind']), $row['flag']);
                 }
                 return null;
             }
@@ -28,12 +29,44 @@ class Game {
         if ($result->num_rows > 0) {
             if ($row = $result->fetch_assoc()) {
                 if ($row['flag'] == 1) {
-                    return new Game($row['id'], $row['hash'], $row['tagret'], $row['blind']);
+                    return new Game($row['id'], $row['hash'], json_decode($row['target']), json_decode($row['blind']), $row['flag']);
                 }
                 return null;
             }
         }
         return null;
+    }
+
+    public function shoot($x, $y) {
+        switch ($this->target[$x][$y]) {
+            case "O": $this->blind[$x][$y] = "X"; break;
+            case " ": $this->blind[$x][$y] = "."; break;
+        }
+        return $this->blind[$x][$y] == "X";
+    }
+
+    public function update() {
+        $query = "UPDATE `game` SET";
+        if ($this->flag == 0) {
+            $query .= " `p1_blind` = '" . json_encode($this->blind) . "'";
+        } else {
+            $query .= " `p2_blind` = '" . json_encode($this->blind) . "'";
+        }
+        $query .= ", `flag` = " . (($this->flag + 1) % 2);
+        $query .= " WHERE `id` = " . $this->id;
+        echo $query;
+        return Database::query($query);
+    }
+
+    public function check() {
+        for ($x = 0; $x < Game::$size; $x++) {
+            for ($y = 0; $y < Game::$size; $y++) {
+                if ($this->target[$x][$y] == "O" && $this->blind[$x][$y] == " ") {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static function create($p1_hash, $p2_hash) {
@@ -47,7 +80,7 @@ class Game {
     }
 
     public static function generateEmptyMap($size) {
-        return array_fill(0, $size, array_fill(0, $size, "."));
+        return array_fill(0, $size, array_fill(0, $size, " "));
     }
 
     public static function generateMap($size) {
@@ -59,10 +92,12 @@ class Game {
     public static function drawSubmarine($map) {
         $x = rand(0, count($map) - 2);
         $y = rand(count($map) + 1, 9);
-        $map[$x][$y - 1] = "X";
-        $map[$x][$y] = "X";
-        $map[$x + 1][$y] = "X";
-        $map[$x + 2][$y] = "X";
+        $map[$x][$y - 1] = "O";
+        $map[$x][$y] = "O";
+        $map[$x + 1][$y] = "O";
+        $map[$x + 2][$y] = "O";
         return $map;
     }
+
+
 }
