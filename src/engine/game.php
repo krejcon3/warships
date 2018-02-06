@@ -54,7 +54,6 @@ class Game {
         }
         $query .= ", `flag` = " . (($this->flag + 1) % 2);
         $query .= " WHERE `id` = " . $this->id;
-        echo $query;
         return Database::query($query);
     }
 
@@ -90,8 +89,10 @@ class Game {
     }
 
     public static function drawSubmarine($map) {
-        $x = rand(0, count($map) - 2);
-        $y = rand(count($map) + 1, 9);
+//        $x = rand(0, self::$size - 1 - 2);
+//        $y = rand(1, self::$size - 1);
+        $x = 1;
+        $y = 1;
         $map[$x][$y - 1] = "O";
         $map[$x][$y] = "O";
         $map[$x + 1][$y] = "O";
