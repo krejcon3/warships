@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *", false);
+
 require_once('./engine/utils/header_status.php');
 require_once('./engine/utils/database_connection.php');
 
@@ -18,7 +20,7 @@ class ConnectionResponse {
 
 $name = trim($_GET["name"]);
 if (strlen($name) > 0) {
-    header('Content-Type: application/json');
+    header('Content-Type: application/json', false);
     echo json_encode(ConnectionResponse::create($name));
 } else {
     header_status(400);
