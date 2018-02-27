@@ -14,6 +14,7 @@ if (strlen($hash) > 0) {
         if ($game->check()) {
             header_status(200);
         } else {
+            $game->update();
             header_status(204);
         }
     }
