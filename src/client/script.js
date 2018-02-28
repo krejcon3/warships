@@ -6,8 +6,8 @@ var Game = function (i_name) {
 	this.register = function() {
 		console.log("Register player: " + name);
 		$.get("http://warships.ondrejkrejcir.cz/register.php", { name: name }, function (data, status) {
-      key = data.key;
-      console.log(key);
+      			key = data.key;
+      			console.log(key);
 		});
 	}
   
@@ -26,10 +26,8 @@ var Game = function (i_name) {
     console.log("Shooting at [" + x + "," + y + "]");
     
     $.get("http://warships.ondrejkrejcir.cz/shoot.php", { hash: key, x: x, y: y }, function (data, status) {
-      console.log("TEST");
-      console.log(data, status);
       playground[data.x][data.y] = data.hit;
-		});
+	}).always(function() {flag = true; });
   };
   
   var drawPlayground = function() {
@@ -75,7 +73,7 @@ var Game = function (i_name) {
 };
 
 $(document).ready(function() {
-	var game = new Game("Krejèíø");
+	var game = new Game("KrejÃ¨Ã­Ã¸");
 	game.register();
   setInterval(game.turn, 2000);
 });
