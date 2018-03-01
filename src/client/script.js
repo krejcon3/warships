@@ -11,7 +11,7 @@ var Game = function (i_name) {
 			key = data.key;
 			console.log(key);
 		});
-	}
+	};
 
 	var createArray = function () {
 		var array = new Array(size);
@@ -49,7 +49,7 @@ var Game = function (i_name) {
 		}
 		if (hits < 4) return;
 		$.get("http://warships.ondrejkrejcir.cz/check.php", {hash: key}, function (data, status) {
-			if (status == "OK") {
+			if (status === "success") {
 				won = true;
 			}
 		});
@@ -102,7 +102,7 @@ var Game = function (i_name) {
 };
 
 $(document).ready(function () {
-	var game = new Game("Krej���");
+	var game = new Game("{PLAYER_NAME}");
 	game.register();
 	setInterval(game.turn, 2000);
 });
