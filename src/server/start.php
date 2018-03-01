@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *", false);
+
 require_once('engine/utils/database_connection.php');
 require_once('engine/game.php');
 
