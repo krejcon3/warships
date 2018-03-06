@@ -6,30 +6,39 @@ class Game {
     private $hash;
     private $target;
     private $blind;
+    private $status;
 
-    private function __construct($id, $hash, $target, $blind, $flag) {
+    private function __construct($id, $hash, $target, $blind, $flag, $status) {
         $this->id = $id;
         $this->hash = $hash;
         $this->target = $target;
+
         $this->blind = $blind;
         $this->flag = $flag;
+        $this->status = $status;
     }
 
     public static function findForHash($hash) {
-        $result = Database::query("SELECT `id`, `p1_hash` as `hash`, `p1_target` as target, `p1_blind` as blind, `flag` FROM `game` WHERE `p1_hash`='" . $hash . "' LIMIT 1");
+        $result = Database::query("SELECT `id`, `p1_hash` as `hash`, `p1_target` as target, `p1_blind` as blind, `flag`, `status` FROM `game` WHERE `p1_hash`='" . $hash . "' LIMIT 1");
         if ($result->num_rows > 0) {
             if ($row = $result->fetch_assoc()) {
+                if ($row["status"] == "CLOSED") {
+                    return "GAME #" . $row['id'] . " CLOSED. WINNER IS: " . $row['flag'];
+                }
                 if ($row['flag'] == 0) {
-                    return new Game($row['id'], $row['hash'], json_decode($row['target']), json_decode($row['blind']), $row['flag']);
+                    return new Game($row['id'], $row['hash'], json_decode($row['target']), json_decode($row['blind']), $row['flag'], $row['status']);
                 }
                 return null;
             }
         }
-        $result = Database::query("SELECT `id`, `p2_hash` as `hash`, `p2_target` as target, `p2_blind` as blind, `flag` FROM `game` WHERE `p2_hash`='" . $hash . "' LIMIT 1");
+        $result = Database::query("SELECT `id`, `p2_hash` as `hash`, `p2_target` as target, `p2_blind` as blind, `flag`, `status` FROM `game` WHERE `p2_hash`='" . $hash . "' LIMIT 1");
         if ($result->num_rows > 0) {
             if ($row = $result->fetch_assoc()) {
+                if ($row["status"] == "CLOSED") {
+                    return "GAME #" . $row['id'] . " CLOSED. WINNER IS: " . $row['flag'];
+                }
                 if ($row['flag'] == 1) {
-                    return new Game($row['id'], $row['hash'], json_decode($row['target']), json_decode($row['blind']), $row['flag']);
+                    return new Game($row['id'], $row['hash'], json_decode($row['target']), json_decode($row['blind']), $row['flag'], $row['status']);
                 }
                 return null;
             }
@@ -43,6 +52,11 @@ class Game {
             case " ": $this->blind[$x][$y] = "."; break;
         }
         return $this->blind[$x][$y] == "X";
+    }
+
+    public function closeGame() {
+        $query = "UPDATE `game` SET `status` = 'CLOSED' WHERE `id` = " . $this->id;
+        return Database::query($query);
     }
 
     public function update() {

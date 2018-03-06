@@ -25,6 +25,8 @@ if (strlen($hash) > 0 && $x >= 0 && $x <= Game::$size && $y >= 0 && $y <= Game::
     $game = Game::findForHash($hash);
     if ($game == null) {
         header_status(403);
+    } elseif (is_string($game)) {
+        header_status(410);
     } else {
         $result = new ShootResponse($game->shoot($x, $y), $x, $y);
         $game->update();

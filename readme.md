@@ -11,6 +11,8 @@ http://warships.ondrejkrejcir.cz/shoot.php?hash={hash}&x={x}&y={y}
     - Špatný vstup
 - 403
     - Nenalezena hra ve které jste na tahu
+- 410
+    - hra již byla dohrána
 
 http://warships.ondrejkrejcir.cz/check.php?hash={hash}
 - 200
@@ -21,6 +23,8 @@ http://warships.ondrejkrejcir.cz/check.php?hash={hash}
     - Špatný vstup
 - 403
     - Nenalezena hra ve které jste na tahu
+- 410
+    - hra již byla dohrána
     
 http://warships.ondrejkrejcir.cz/simulation.php?hash={hash}
 - 400
