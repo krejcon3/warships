@@ -15,7 +15,7 @@ if (strlen($hash) > 0) {
         <html lang="cz">
             <head>
                 <meta charset="UTF-8">
-                <title>Warships</title>
+                <title>Warships [simulation]</title>
             <link rel="stylesheet" type="text/css" href="./src/style.css">
             </head>
             <body>

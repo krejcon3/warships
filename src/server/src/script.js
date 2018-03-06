@@ -7,7 +7,7 @@ var Game = function (i_name) {
 
 	this.register = function () {
 		key = $("#player_id").data("hash");
-		console.log(hash);
+		console.log(key);
 	};
 
 	var createArray = function () {
