@@ -102,17 +102,50 @@ class Game {
         return $map;
     }
 
-    public static function drawSubmarine($map) {
-//        $x = rand(0, self::$size - 1 - 2);
-//        $y = rand(1, self::$size - 1);
-        $x = 1;
-        $y = 1;
-        $map[$x][$y - 1] = "O";
+    public static function drawA($map) {
+    //        $x = rand(0, self::$size - 1 - 2);
+    //        $y = rand(1, self::$size - 1);
+        $x = 2;
+        $y = 6;
         $map[$x][$y] = "O";
-        $map[$x + 1][$y] = "O";
-        $map[$x + 2][$y] = "O";
+        $map[$x - 1][$y + 1] = "O";
+        $map[$x][$y + 1] = "O";
+        $map[$x + 1][$y + 1] = "O";
+        $map[$x - 1][$y + 2] = "O";
+        $map[$x + 1][$y + 2] = "O";
         return $map;
     }
 
+    public static function drawL($map) {
+//        $x = rand(0, self::$size - 1 - 2);
+//        $y = rand(1, self::$size - 1);
+        $x = 7;
+        $y = 6;
+        $map[$x][$y] = "O";
+        $map[$x][$y + 1] = "O";
+        $map[$x][$y + 2] = "O";
+        $map[$x - 1][$y + 3] = "O";
+        return $map;
+    }
 
+    public static function drawK($map) {
+//        $x = rand(0, self::$size - 1 - 2);
+//        $y = rand(1, self::$size - 1);
+        $x = 7;
+        $y = 2;
+        $map[$x][$y] = "O";
+        $map[$x + 1][$y] = "O";
+        $map[$x][$y + 1] = "O";
+        $map[$x + 1][$y + 1] = "O";
+        return $map;
+    }
+
+    public static function drawO($map) {
+//        $x = rand(0, self::$size - 1 - 2);
+//        $y = rand(1, self::$size - 1);
+        $x = 2;
+        $y = 2;
+        $map[$x][$y] = "O";
+        return $map;
+    }
 }
