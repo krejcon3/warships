@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *", false);
 
 require_once('engine/utils/database_connection.php');
-require_once('engine/game.php');
+require_once('./engine/Game.php');
 
 $result = Database::query("SELECT * FROM `users` WHERE `active` = 1");
 if ($result) {

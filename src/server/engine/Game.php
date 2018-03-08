@@ -98,7 +98,10 @@ class Game {
 
     public static function generateMap($size) {
         $map = self::generateEmptyMap($size);
-        $map = self::drawSubmarine($map);
+        $map = self::drawA($map);
+        $map = self::drawL($map);
+        $map = self::drawK($map);
+        $map = self::drawO($map);
         return $map;
     }
 
