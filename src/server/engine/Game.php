@@ -127,7 +127,7 @@ class Game {
         $map[$x][$y] = "O";
         $map[$x][$y + 1] = "O";
         $map[$x][$y + 2] = "O";
-        $map[$x - 1][$y + 3] = "O";
+        $map[$x - 1][$y + 2] = "O";
         return $map;
     }
 
