@@ -44,7 +44,7 @@ var Game = function (i_name) {
 				}
 			}
 		}
-		if (hits < 4) return;
+		if (hits < 15) return;
 		$.get("http://warships.ondrejkrejcir.cz/check.php", {hash: key}, function (data, status) {
 			if (status === "success") {
 				won = true;
