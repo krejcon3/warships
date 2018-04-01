@@ -105,50 +105,127 @@ class Game {
         return $map;
     }
 
+    public static function isNotValid($playground, $x, $y) {
+        for ($i = -1; $i <= 1; $i++) {
+            for ($j = -1; $j <= 1; $j++) {
+                if ($i + $x >= self::$size || $i + $x < 0 || $j + $y >= self::$size || $j + $y < 0) continue;
+                if ($playground[$i + $x][$j + $y] == "O") return true;
+            }
+        }
+        return false;
+    }
+
     public static function drawA($map) {
-    //        $x = rand(0, self::$size - 1 - 2);
-    //        $y = rand(1, self::$size - 1);
-        $x = 2;
-        $y = 6;
-        $map[$x][$y] = "O";
-        $map[$x - 1][$y + 1] = "O";
-        $map[$x][$y + 1] = "O";
-        $map[$x + 1][$y + 1] = "O";
-        $map[$x - 1][$y + 2] = "O";
-        $map[$x + 1][$y + 2] = "O";
+        $coords = array(
+            array(0, 0),
+            array(-1, 1),
+            array(0, 1),
+            array(1, 1),
+            array(-1, 2),
+            array(1, 2)
+        );
+
+        $x = rand(1, self::$size - 2);
+        $y = rand(0, self::$size - 3);
+
+        $result = true;
+        while ($result) {
+            $result = false;
+            $x = rand(1, self::$size - 2);
+            $y = rand(0, self::$size - 3);
+            foreach ($coords as $coord) {
+                $result = $result || self::isNotValid($map, $coord[0] + $x, $coord[1] + $y);
+            }
+        }
+
+        foreach ($coords as $coord) {
+            $map[$coord[0] + $x][$coord[1] + $y] = "O";
+        }
+
         return $map;
     }
 
     public static function drawL($map) {
-//        $x = rand(0, self::$size - 1 - 2);
-//        $y = rand(1, self::$size - 1);
-        $x = 7;
-        $y = 6;
-        $map[$x][$y] = "O";
-        $map[$x][$y + 1] = "O";
-        $map[$x][$y + 2] = "O";
-        $map[$x - 1][$y + 2] = "O";
+        $coords = array(
+            array(0, 0),
+            array(0, 1),
+            array(0, 2),
+            array(-1, 2)
+        );
+
+        $x = rand(1, self::$size - 1);
+        $y = rand(0, self::$size - 3);
+
+        $result = true;
+        while ($result) {
+            $result = false;
+            $x = rand(1, self::$size - 1);
+            $y = rand(0, self::$size - 3);
+            foreach ($coords as $coord) {
+                $result = $result || self::isNotValid($map, $coord[0] + $x, $coord[1] + $y);
+            }
+        }
+
+        foreach ($coords as $coord) {
+            $map[$coord[0] + $x][$coord[1] + $y] = "O";
+        }
+
         return $map;
     }
 
     public static function drawK($map) {
-//        $x = rand(0, self::$size - 1 - 2);
-//        $y = rand(1, self::$size - 1);
-        $x = 7;
-        $y = 2;
-        $map[$x][$y] = "O";
-        $map[$x + 1][$y] = "O";
-        $map[$x][$y + 1] = "O";
-        $map[$x + 1][$y + 1] = "O";
+        $coords = array(
+            array(0, 0),
+            array(1, 0),
+            array(0, 1),
+            array(1, 1)
+        );
+
+        $x = rand(0, self::$size - 2);
+        $y = rand(0, self::$size - 2);
+
+        $result = true;
+        while ($result) {
+            $result = false;
+            $x = rand(0, self::$size - 2);
+            $y = rand(0, self::$size - 2);
+            foreach ($coords as $coord) {
+                $result = $result || self::isNotValid($map, $coord[0] + $x, $coord[1] + $y);
+            }
+        }
+
+        foreach ($coords as $coord) {
+            $map[$coord[0] + $x][$coord[1] + $y] = "O";
+        }
+
         return $map;
     }
 
     public static function drawO($map) {
-//        $x = rand(0, self::$size - 1 - 2);
-//        $y = rand(1, self::$size - 1);
-        $x = 2;
-        $y = 2;
-        $map[$x][$y] = "O";
+        $coords = array(
+            array(0, 0)
+        );
+
+        $x = rand(0, self::$size - 1);
+        $y = rand(0, self::$size - 1);
+
+        $result = true;
+        while ($result) {
+            $result = false;
+            $x = rand(0, self::$size - 1);
+            $y = rand(0, self::$size - 1);
+            foreach ($coords as $coord) {
+                $result = $result || self::isNotValid($map, $coord[0] + $x, $coord[1] + $y);
+            }
+        }
+
+        foreach ($coords as $coord) {
+            $map[$coord[0] + $x][$coord[1] + $y] = "O";
+        }
+
         return $map;
+
     }
+
+
 }
