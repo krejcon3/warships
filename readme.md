@@ -46,3 +46,8 @@ http://warships.ondrejkrejcir.cz/check.php?hash={hash}
 http://warships.ondrejkrejcir.cz/simulation.php?hash={hash}
 - 400
     - Špatný vstup
+    
+### Spuštění testovací hry - Brutallus mode
+http://warships.ondrejkrejcir.cz/brutallus.php?hash={hash}
+- 400
+    - Špatný vstup
