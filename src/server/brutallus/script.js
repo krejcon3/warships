@@ -28,25 +28,46 @@ var Game = function (i_name) {
 	};
 	var playground = createArray();
 
+	var memory = [];
+
+	var getCoords = function(i) {
+		if (i < memory.length) {
+			return memory[i];
+		} else {
+			return {
+				x: Math.floor(Math.random() * 10),
+				y: Math.floor(Math.random() * 10)
+			};
+		}
+	};
+
 	var shoot = function () {
 		if (!flag) {
 			return;
 		}
-		var x = Math.floor(Math.random() * 10);
-		var y = Math.floor(Math.random() * 10);
-
-		while (playground[x][y] !== undefined) {
-			x = Math.floor(Math.random() * 10);
-			y = Math.floor(Math.random() * 10);
+		var index = 0;
+		var coords = getCoords(index++);
+		while (playground[coords.x][coords.y] !== undefined) {
+			coords = getCoords(index++);
 		}
-		console.log("Shooting at [" + x + "," + y + "]");
+		console.log("Shooting at", coords);
 
 		flag = false;
 		$.ajax({
 			url: "http://warships.ondrejkrejcir.cz/shoot.php",
-			data: {hash: key, x: x, y: y},
+			data: {hash: key, x: coords.x, y: coords.y},
 			success: function (data, status) {
 				playground[data.x][data.y] = data.hit;
+				if (data.hit) {
+					var shifts = [{x: 0, y: 1}, {x: 0, y: -1}, {x: 1, y: 0}, {x: -1, y: 0}];
+					for (var i = 0; i < shifts.length; i++) {
+						var xx = parseInt(data.x) + parseInt(shifts[i].x); // může se stát že data.x není číslo, parseInt ho na číslo převede
+						var yy = parseInt(data.y) + parseInt(shifts[i].y); // může se stát že data.x není číslo, parseInt ho na číslo převede
+						if (xx >= 0 && xx < 10 && yy >= 0 && yy < 10) {
+							memory.unshift({x: xx, y: yy}); // unshift zařadí prvek na začátek pole
+						}
+					}
+				}
 			},
 			dataType: "json",
 			timeout: 5000
