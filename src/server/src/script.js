@@ -28,8 +28,14 @@ var Game = function (i_name) {
 		console.log("Shooting at [" + x + "," + y + "]");
 
 		flag = false;
-		$.get("http://warships.ondrejkrejcir.cz/shoot.php", {hash: key, x: x, y: y}, function (data, status) {
-			playground[data.x][data.y] = data.hit;
+		$.ajax({
+			url: "http://warships.ondrejkrejcir.cz/shoot.php",
+			data: {hash: key, x: x, y: y},
+			success: function (data, status) {
+				playground[data.x][data.y] = data.hit;
+			},
+			dataType: "json",
+			timeout: 5000
 		}).always(function () {
 			flag = true;
 		});
@@ -45,10 +51,16 @@ var Game = function (i_name) {
 			}
 		}
 		if (hits < 15) return;
-		$.get("http://warships.ondrejkrejcir.cz/check.php", {hash: key}, function (data, status) {
-			if (status === "success") {
-				won = true;
-			}
+		$.ajax({
+			url: "http://warships.ondrejkrejcir.cz/check.php",
+			data: {hash: key},
+			success: function (data, status) {
+				if (status === "success") {
+					won = true;
+				}
+			},
+			dataType: "json",
+			timeout: 5000
 		});
 	};
 
@@ -99,7 +111,7 @@ var Game = function (i_name) {
 };
 
 $(document).ready(function () {
-	var game = new Game("{PLAYER_NAME}");
+	var game = new Game("Simulation");
 	game.register();
 	setInterval(game.turn, 2000);
 });

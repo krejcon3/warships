@@ -6,17 +6,8 @@ var Game = function (i_name) {
 	var won = false;
 
 	this.register = function () {
-		console.log("Register player: " + name);
-		$.ajax({
-			url: "http://warships.ondrejkrejcir.cz/register.php",
-			data: {name: name + new Date().getTime()},
-			success: function (data, status) {
-				key = data.key;
-				console.log(key);
-			},
-			dataType: "json",
-			timeout: 5000
-		});
+		key = $("#player_id").data("hash");
+		console.log(key);
 	};
 
 	var createArray = function () {
@@ -146,7 +137,7 @@ var Game = function (i_name) {
 };
 
 $(document).ready(function () {
-	var game = new Game("{PLAYER_NAME}");
+	var game = new Game("Brutallus");
 	game.register();
 	setInterval(game.turn, 2000);
 });
